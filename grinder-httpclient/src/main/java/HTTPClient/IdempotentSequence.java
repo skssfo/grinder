@@ -66,6 +66,7 @@ class IdempotentSequence
 			     GET     = 2,
 			     POST    = 3,
 			     PUT     = 4,
+			     PATCH   = 15,
 			     DELETE  = 5,
 			     OPTIONS = 6,
 			     TRACE   = 7,
@@ -232,6 +233,7 @@ class IdempotentSequence
 		return true;
 	    case UNKNOWN:
 	    case POST:
+	    case PATCH:
 	    case MKCOL:
 	    case LOCK:
 	    case UNLOCK:
@@ -264,6 +266,7 @@ class IdempotentSequence
 	    case HEAD:
 	    case GET:
 	    case PUT:
+	    case PATCH:
 	    case DELETE:
 	    case OPTIONS:
 	    case TRACE:
@@ -304,6 +307,7 @@ class IdempotentSequence
 	    case UNKNOWN:
 	    case POST:
 	    case PUT:
+	    case PATCH:
 	    case DELETE:
 	    case PROPPATCH:
 	    case MKCOL:
@@ -325,6 +329,8 @@ class IdempotentSequence
 	    return HEAD;
 	if (method.equals("PUT"))
 	    return PUT;
+	if (method.equals("PATCH"))
+		return PATCH;
 	if (method.equals("DELETE"))
 	    return DELETE;
 	if (method.equals("OPTIONS"))

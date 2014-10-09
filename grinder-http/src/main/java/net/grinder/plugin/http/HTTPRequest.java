@@ -1134,6 +1134,146 @@ public class HTTPRequest {
       .getHTTPResponse();
   }
 
+  
+  
+  /**
+   * Makes an HTTP {@code PUT} request.
+   *
+   * @return Contains details of the server's response.
+   * @throws Exception If an error occurs.
+   */
+  public final HTTPResponse PATCH() throws Exception {
+    return PATCH(null, getData(), getHeaders());
+  }
+
+  /**
+   * Makes an HTTP {@code PATCH} request.
+   *
+   * @param uri The URI. If a default URL has been specified with
+   * {@link #setUrl}, this value need not be absolute and, if
+   * relative, it will be resolved relative to the default URL.
+   * Otherwise this value must be an absolute URL.
+   * @return Contains details of the server's response.
+   * @throws Exception If an error occurs.
+   */
+  public final HTTPResponse PATCH(final String uri) throws Exception {
+    return PATCH(uri, getData(), getHeaders());
+  }
+
+  /**
+   * Makes an HTTP {@code PUT} request.
+   *
+   * @param uri The URI. If a default URL has been specified with
+   * {@link #setUrl}, this value need not be absolute and, if
+   * relative, it will be resolved relative to the default URL.
+   * Otherwise this value must be an absolute URL.
+   * @param data Data to be submitted in the body of the request.
+   * Overrides the value set with {@link #setData}.
+   * @return Contains details of the server's response.
+   * @throws Exception If an error occurs.
+   */
+  public final HTTPResponse PATCH(final String uri,
+                                final byte[] data) throws Exception {
+    return PATCH(uri, data, getHeaders());
+  }
+
+  /**
+   * Makes an HTTP {@code PATCH} request.
+   *
+   * @param uri
+   *          The URI. If a default URL has been specified with {@link #setUrl},
+   *          this value need not be absolute and, if relative, it will be
+   *          resolved relative to the default URL. Otherwise this value must be
+   *          an absolute URL.
+   * @param data
+   *          Data to be submitted in the body of the request. Overrides the
+   *          value set with {@link #setData}.
+   * @param headers
+   *          Request headers. Overrides headers with matching names set by
+   *          {@link #setHeaders}.
+   * @return Contains details of the server's response.
+   * @throws Exception
+   *              If an error occurs.
+   */
+  public final HTTPResponse PATCH(final String uri,
+                                final byte[] data,
+                                final NVPair[] headers) throws Exception {
+
+    return new AbstractRequest(uri, headers) {
+        @Override
+        HTTPResponse doRequest(final HTTPConnection connection,
+                               final String path,
+                               final NVPair[] mergedHeaders)
+          throws IOException, ModuleException {
+          return connection.Patch(path, data, mergedHeaders);
+        }
+      }
+      .getHTTPResponse();
+  }
+
+  /**
+   * Makes an HTTP {@code PATCH} request. This version allows the data
+   * to be passed as a stream, see the note in the
+   * {@link HTTPRequest class description}.
+   *
+   * @param uri The URI. If a default URL has been specified with
+   * {@link #setUrl}, this value need not be absolute and, if
+   * relative, it will be resolved relative to the default URL.
+   * Otherwise this value must be an absolute URL.
+   * @param inputStream Data to be submitted in the body of the request.
+   * This stream will be fully read and closed when the method is called.
+   * The value set with {@link #setData} is ignored.
+   * @return Contains details of the server's response.
+   * @throws Exception If an error occurs.
+   */
+  public final HTTPResponse PATCH(final String uri, final InputStream inputStream)
+    throws Exception {
+    return PATCH(uri, inputStream, getHeaders());
+  }
+
+  /**
+   * Makes an HTTP {@code PATCH} request. This version allows the data
+   * to be passed as a stream, see the note in the
+   * {@link HTTPRequest class description}.
+   *
+   * @param uri The URI. If a default URL has been specified with
+   * {@link #setUrl}, this value need not be absolute and, if
+   * relative, it will be resolved relative to the default URL.
+   * Otherwise this value must be an absolute URL.
+   * @param inputStream Data to be submitted in the body of the request.
+   * This stream will be fully read and closed when the method is called.
+   * The value set with {@link #setData} is ignored.
+   * @param headers
+   *          Request headers. Overrides headers with matching names set by
+   *          {@link #setHeaders}.
+   * @return Contains details of the server's response.
+   * @throws Exception If an error occurs.
+   */
+  public final HTTPResponse PATCH(final String uri,
+                                final InputStream inputStream,
+                                final NVPair[] headers) throws Exception {
+
+    return new AbstractStreamingRequest(uri, headers) {
+        @Override
+        InputStream getInputStream() {
+          return inputStream;
+        }
+
+        @Override
+        HTTPResponse doStreamingRequest(final HTTPConnection connection,
+                                        final String path,
+                                        final NVPair[] mergedHeaders,
+                                        final HttpOutputStream outputStream)
+          throws IOException, ModuleException {
+          return connection.Patch(path, outputStream, mergedHeaders);
+        }
+      }
+      .getHTTPResponse();
+  }
+
+  
+  
+  
   /**
    * Makes an HTTP {@code TRACE} request.
    *
@@ -1397,9 +1537,9 @@ public class HTTPRequest {
       return httpResponse;
     }
 
-    abstract HTTPResponse doRequest(HTTPConnection connection,
-                                    String path,
-                                    NVPair[] headers)
+    abstract HTTPResponse doRequest(final HTTPConnection connection,
+                                    final String path,
+                                    final NVPair[] headers)
       throws IOException, ModuleException;
   }
 
@@ -1441,10 +1581,10 @@ public class HTTPRequest {
 
     abstract InputStream getInputStream();
 
-    abstract HTTPResponse doStreamingRequest(HTTPConnection connection,
-                                             String path,
-                                             NVPair[] mergedHeaders,
-                                             HttpOutputStream outputStream)
+    abstract HTTPResponse doStreamingRequest(final HTTPConnection connection,
+                                             final String path,
+                                             final NVPair[] mergedHeaders,
+                                             final HttpOutputStream outputStream)
       throws IOException, ModuleException;
   }
 
@@ -1453,7 +1593,7 @@ public class HTTPRequest {
   }
 
   private static Collection<String> s_httpMethodNames =
-    asList("DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT", "TRACE");
+    asList("DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT", "TRACE", "PATCH");
 
   private static InstrumentationFilter s_httpMethodFilter =
     new InstrumentationFilter() {
