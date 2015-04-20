@@ -3,6 +3,7 @@
              :hi          "Hi {0}"
              :hy-phen     "Hyphen"
              :empty       ""
+             :two-params  "{1} and {0}"
             }
 
       :test2 {:bah :test/foo}

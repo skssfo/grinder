@@ -30,7 +30,8 @@
 
 (defmacro with-translations
   [d & body]
-  `(binding [translate/*tconfig* {:dictionary ~d}]
+  `(binding [translate/*tconfig* {:dictionary ~d
+                                  :fmt-fn tower/fmt-msg}]
      ~@body))
 
 (deftest test-t
@@ -49,7 +50,8 @@
           "" :empty
           )
 
-        (is (= "Hi World" (translate/t :hi "World"))))
+        (is (= "Hi World" (translate/t :hi "World")))
+        (is (= "y and x" (translate/t :two-params "x" "y"))))
 
       (is (= "blah" (translate/t :test2/bah)))
 

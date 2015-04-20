@@ -1,4 +1,4 @@
-; Copyright (C) 2013 Philip Aston
+; Copyright (C) 2013 - 2015 Philip Aston
 ; All rights reserved.
 ;
 ; This file is part of The Grinder software distribution. Refer to
@@ -28,6 +28,7 @@
 (def ^:dynamic *tconfig*
   {:fallback-locale :en
    :dictionary "translations.clj"
+   :fmt-fn tower/fmt-msg
    })
 
 
@@ -46,12 +47,9 @@
   "This method is more relaxed than `tower/t` in its interpretation of
    the supplied keys. As well as keywords, it accepts Strings, and
    implementations of `net.grinder.common.Translatable`. See `tkeys`."
-  ([k-or-ks & interpolation-args]
-    (when-let [pattern (t k-or-ks)]
-       ; FIXME - deprecated
-       (apply tower/format-msg pattern interpolation-args)))
 
-  ([k-or-ks]
-    (let [kchoices* (if (vector? k-or-ks) k-or-ks [k-or-ks])
-          kchoices  (apply vector (map tkeys kchoices*))]
-      (tower/t (or tower/*locale* :jvm-default) *tconfig* kchoices))))
+  [k-or-ks & fmt-args]
+  (let [kchoices* (if (vector? k-or-ks) k-or-ks [k-or-ks])
+        kchoices  (apply vector (map tkeys kchoices*))]
+    (apply tower/t (or tower/*locale* :jvm-default) *tconfig* kchoices fmt-args))
+  )
