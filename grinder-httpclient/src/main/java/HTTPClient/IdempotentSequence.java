@@ -28,6 +28,10 @@
  *
  *  http://www.innovation.ch/java/HTTPClient/ 
  *
+ * This file contains modifications for use with "The Grinder"
+ * (http://grinder.sourceforge.net) under the terms of the LGPL. They
+ * are marked below with the comment "GRINDER MODIFICATION".
+ *
  */
 
 package HTTPClient;
@@ -42,8 +46,8 @@ import java.util.Enumeration;
  * effects and which methods are idempotent.
  *
  * <P>Note: unknown methods (i.e. a method which is not HEAD, GET, POST, PUT,
- * DELETE, OPTIONS, TRACE, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK, or
- * UNLOCK) are treated conservatively, meaning they are assumed to have side
+ * DELETE, OPTIONS, TRACE, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK, PATCH,
+ * or UNLOCK) are treated conservatively, meaning they are assumed to have side
  * effects and are not idempotent.
  *
  * <P>Usage:
@@ -66,7 +70,9 @@ class IdempotentSequence
 			     GET     = 2,
 			     POST    = 3,
 			     PUT     = 4,
+			     /** ++GRINDER MODIFICATION **/
 			     PATCH   = 15,
+			     /** --GRINDER MODIFICATION **/
 			     DELETE  = 5,
 			     OPTIONS = 6,
 			     TRACE   = 7,
@@ -233,7 +239,9 @@ class IdempotentSequence
 		return true;
 	    case UNKNOWN:
 	    case POST:
+	    /** ++GRINDER MODIFICATION **/
 	    case PATCH:
+	    /** --GRINDER MODIFICATION **/
 	    case MKCOL:
 	    case LOCK:
 	    case UNLOCK:
@@ -266,7 +274,9 @@ class IdempotentSequence
 	    case HEAD:
 	    case GET:
 	    case PUT:
+	    /** ++GRINDER MODIFICATION **/
 	    case PATCH:
+	    /** --GRINDER MODIFICATION **/
 	    case DELETE:
 	    case OPTIONS:
 	    case TRACE:
@@ -307,7 +317,9 @@ class IdempotentSequence
 	    case UNKNOWN:
 	    case POST:
 	    case PUT:
+	    /** ++GRINDER MODIFICATION **/
 	    case PATCH:
+	    /** --GRINDER MODIFICATION **/
 	    case DELETE:
 	    case PROPPATCH:
 	    case MKCOL:
@@ -329,8 +341,10 @@ class IdempotentSequence
 	    return HEAD;
 	if (method.equals("PUT"))
 	    return PUT;
+	/** ++GRINDER MODIFICATION **/
 	if (method.equals("PATCH"))
 		return PATCH;
+	/** --GRINDER MODIFICATION **/
 	if (method.equals("DELETE"))
 	    return DELETE;
 	if (method.equals("OPTIONS"))

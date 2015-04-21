@@ -5,6 +5,7 @@
 // Copyright (C) 2004 Calum Fitzgerald
 // Copyright (C) 2009 Hitoshi Amano
 // Copyright (C) 2010 Bryce Howard
+// Copyright (C) 2015 Marc Holden
 // All rights reserved.
 //
 // This file is part of The Grinder software distribution. Refer to
@@ -1134,8 +1135,6 @@ public class HTTPRequest {
       .getHTTPResponse();
   }
 
-  
-  
   /**
    * Makes an HTTP {@code PUT} request.
    *
@@ -1226,7 +1225,9 @@ public class HTTPRequest {
    * @return Contains details of the server's response.
    * @throws Exception If an error occurs.
    */
-  public final HTTPResponse PATCH(final String uri, final InputStream inputStream)
+  public final HTTPResponse PATCH(
+    final String uri,
+    final InputStream inputStream)
     throws Exception {
     return PATCH(uri, inputStream, getHeaders());
   }
@@ -1271,9 +1272,6 @@ public class HTTPRequest {
       .getHTTPResponse();
   }
 
-  
-  
-  
   /**
    * Makes an HTTP {@code TRACE} request.
    *

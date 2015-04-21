@@ -1330,10 +1330,9 @@ public class HTTPConnection implements GlobalConstants, HTTPClientModuleConstant
     {
 	return setupRequest("PUT", stripRef(file), headers, null, stream);
     }
-    
-    
-    
-    
+
+    /** ++GRINDER MODIFICATION **/
+
     /**
      * PUTs the data into the specified file. The data is converted to an
      * array of bytes using the default character converter.
@@ -1449,6 +1448,7 @@ public class HTTPConnection implements GlobalConstants, HTTPClientModuleConstant
 	return setupRequest("PATCH", stripRef(file), headers, null, stream);
     }
 
+    /** --GRINDER MODIFICATION **/
 
     /**
      * Request OPTIONS from the server. If <var>file</var> is "*" then

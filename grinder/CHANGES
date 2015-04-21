@@ -59,6 +59,9 @@ The Grinder 3.12 (not yet released)
   Fix bug #240 Cookie Parsing failing for HttpOnly Cookies. Thanks
   to Chris Barran and juray for the reports.
 
+  Integrate feature request #115 - support for HTTP Patch. Thanks to
+  Marc Holden for the implementation.
+
 
 The Grinder 3.11
 ----------------
